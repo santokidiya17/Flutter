@@ -1,0 +1,26 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+
+class ApiServices {
+  var base_url = "https://67b5869f07ba6e59083d2959.mockapi.io/todo";
+
+  Future<List<dynamic>> getAll() async {
+    var res = await http.get(Uri.parse(base_url));
+
+    List<dynamic> data = jsonDecode(res.body);
+    return data;
+  }
+
+  Future<void> addTodo(Map<String, dynamic> todo) async {
+    await http.post(Uri.parse(base_url), body: todo);
+  }
+
+  Future<void> updateTodo(String id, Map<String, dynamic> todo) async {
+    await http.put(Uri.parse("$base_url/$id"), body: todo);
+  }
+
+  Future<void> deleteTodo(String id) async {
+    await http.delete(Uri.parse("$base_url/$id"));
+  }
+}
